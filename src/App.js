@@ -6,18 +6,15 @@ function App() {
     getAllUsers()
   }, [])
 
-  const getAllUsers = () => {
-    fetch('http://localhost:3030/user')
-      .then(async (res) => {
-        let users = await res.json()
-        console.log(users)
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+  const getAllUsers = async () => {
+    const response = await fetch('http://localhost:3030/user')
+    let data = await response.json()
+    console.log(data)
   }
 
-  return <div className="App"></div>
+  return <div className="App">
+    <h3>Banker System</h3>
+  </div>
 }
 
 export default App
