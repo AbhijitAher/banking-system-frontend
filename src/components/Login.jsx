@@ -1,5 +1,7 @@
 import React from 'react'
 import axios from 'axios'
+import TransactionsTable from './TransactionsTable'
+import Accounts from './Accounts'
 
 export default function Login({ state, setState }) {
   const handleOnSubmit = (e) => {
@@ -17,20 +19,20 @@ export default function Login({ state, setState }) {
   const getUser = (email, password) => {
     setState({ isLoading: true, ...state })
     axios
-      .get('http://localhost:3030/user/', {
+      .get(`http://localhost:3030/user/`, {
         params: {
-            email: email,
-            password: password
-        }
+          email: email,
+          password: password,
+        },
       })
       .then((res) => {
-        console.log('Login Response',res);
-        // setState({ isLoading: true, ...state })
+        console.log('Login Response', res)
+        setState({ ...state, userLoggedIn: res.data.user })
       })
       .catch((e) => {
         console.log('Error', e)
       })
-      setState({ isLoading: false, ...state })
+    setState({ isLoading: false, ...state })
   }
 
   return (
@@ -46,6 +48,10 @@ export default function Login({ state, setState }) {
         />
         <input type="submit" />
       </form>
+      <TransactionsTable state={state} setState={setState} />
+      {state.userLoggedIn?
+      <Accounts state={state} setState={setState} /> : null
+      }
     </div>
   )
 }

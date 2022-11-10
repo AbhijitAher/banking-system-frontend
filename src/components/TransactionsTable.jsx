@@ -22,5 +22,11 @@ export default function TransactionsTable({ state, setState }) {
     setState({ isLoading: true, ...state })
   }
 
-  return state?.isLoading ? <div>...Loading</div> : <div>Transaction Data Table</div>
+  return state?.isLoading ? (
+    <div>...Loading</div>
+  ) : (
+    <div>
+      <h2>Transaction Data Table</h2>
+    </div>
+  )
 }
