@@ -9,6 +9,10 @@ export default function TransactionsTable({ state, setState }) {
     getTransactionData()
   }, [])
 
+  const handleLogout = () => {
+    setState({ ...state, userLoggedIn: false })
+  }
+
   const getTransactionData = () => {
     setState({ isLoading: true, ...state })
     axios
@@ -26,7 +30,18 @@ export default function TransactionsTable({ state, setState }) {
     <div>...Loading</div>
   ) : (
     <div>
-      <h2>Transaction Data Table</h2>
+      {!state?.userLoggedIn?.isBanker && state?.userLoggedIn ? (
+        <div>
+          <h5>{state.userLoggedIn.name} (customer) logged In</h5>
+          <button className='button' onClick={handleLogout}>Logout</button>
+          <h2>Transaction Data Table</h2>
+      <div>
+        <button className='button'>Deposite</button>
+        <button className='button'>Withdraw</button>
+      </div>
+        </div>
+      ) : null}
+      
     </div>
   )
 }

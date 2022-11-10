@@ -1,4 +1,5 @@
 import React from 'react'
+import '../App.css'
 import axios from 'axios'
 import TransactionsTable from './TransactionsTable'
 import Accounts from './Accounts'
@@ -14,6 +15,10 @@ export default function Login({ state, setState }) {
       console.log({ email, password })
       getUser(email, password)
     }
+  }
+
+  const handleLogout = () => {
+    setState({ ...state, userLoggedIn: false })
   }
 
   const getUser = (email, password) => {
@@ -36,22 +41,41 @@ export default function Login({ state, setState }) {
   }
 
   return (
-    <div>
-      <h3>User Login</h3>
-      <form onSubmit={handleOnSubmit}>
-        <input type="email" name="email" id="email" placeholder="Email" />
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Password"
-        />
-        <input type="submit" />
-      </form>
+    <div className="ml-100">
+      {!state.userLoggedIn ? (
+        <div className="width-300">
+          <h3 className="text-center">User Login</h3>
+          <form onSubmit={handleOnSubmit}>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Email"
+              className="textbox"
+            />
+            <br />
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+              className="textbox"
+            />
+            <br />
+            <input type="submit" className="button" />
+          </form>
+        </div>
+      ) : null}
+
+      {state?.userLoggedIn?.isBanker ? (
+        <div>
+          <h5>{state.userLoggedIn.name} (banker) logged In</h5>
+          <button className='button' onClick={handleLogout}>Logout</button>
+          <Accounts state={state} setState={setState} />
+        </div>
+      ) : null}
+
       <TransactionsTable state={state} setState={setState} />
-      {state.userLoggedIn?
-      <Accounts state={state} setState={setState} /> : null
-      }
     </div>
   )
 }
