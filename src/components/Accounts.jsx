@@ -9,14 +9,14 @@ export default function Accounts({ state, setState }) {
     getAllUser()
   }, [])
 
-  console.log('state', state)
+  // console.log('state', state)
 
   const getAllUser = (email, password) => {
     setState({ isLoading: true, ...state })
     axios
       .get(`http://localhost:3030/user/all`)
       .then((res) => {
-        console.log('All Users Response', res)
+        // console.log('All Users Response', res)
         let customers = res.data.items.filter((users) => users.isBanker != true)
         setState({ ...state, allUsers: customers })
       })
@@ -39,7 +39,12 @@ export default function Accounts({ state, setState }) {
           </div>
           {state?.allUsers?.map((user) => {
             return user.email !== state.userLoggedIn.email || !user.isBanker ? (
-              <Link to={`/accounts/${user.email}`}>
+              <Link
+                to={`/transactions/${user._id}`}
+                onClick={() => {
+                  setState({ ...state, selectedAccount: user._id })
+                }}
+              >
                 <div className="row">
                   <div>{user.name}</div>
                   <div>{user.email}</div>

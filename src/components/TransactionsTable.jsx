@@ -6,7 +6,7 @@ import axios from 'axios'
 import TransactionModal from './TransactionModal'
 
 export default function TransactionsTable({ state, setState }) {
-  const [transactionData, setTransactionData] = useState([])
+  const [transactionData, setTransactionData] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [transactionType, setTransactionType] = useState('')
 
@@ -17,11 +17,19 @@ export default function TransactionsTable({ state, setState }) {
   useEffect(() => {
     if (!state?.userLoggedIn?.isBanker) {
       getTransactionData(state?.userLoggedIn?._id)
+    } else if (state?.userLoggedIn?.isBanker) {
+      getTransactionData(state?.selectedAccount)
+      console.log('banker accounts transactions', state)
     }
-  }, [state?.userLoggedIn?._id, state?.userLoggedIn?.balance])
+  }, [
+    state?.userLoggedIn?._id,
+    state?.userLoggedIn?.balance,
+    state?.selectedAccount,
+  ])
 
   const handleLogout = () => {
     setState({ ...state, userLoggedIn: false })
+    setTransactionData(false)
   }
 
   const getTransactionData = (userID) => {
@@ -75,7 +83,7 @@ export default function TransactionsTable({ state, setState }) {
         </div>
       ) : null}
 
-      {state?.userLoggedIn ? (
+      {state?.userLoggedIn && transactionData ? (
         <div className="transaction-table">
           <div className="row transaction-table-header">
             <div className="lp-10">Transaction Date</div>

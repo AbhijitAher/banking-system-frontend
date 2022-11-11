@@ -20,7 +20,7 @@ function App() {
   const [state, setState] = useState(initialState)
 
   useEffect(() => {
-    console.log('state', state)
+    // console.log('state', state)
   }, [state])
   // const getAllUsers = async () => {
   //   const response = await fetch('http://localhost:3030/user')
@@ -36,14 +36,12 @@ function App() {
           path="/"
           element={<Login state={state} setState={setState} />}
         ></Route>
-        <Route
-          path="/accounts"
-          element={<Accounts state={state} setState={setState} />}
-        ></Route>
-        {/* <Route
-          path={`/accounts/${state?.userLoggedIn?.email}`}
-          element={<TransactionsTable state={state} setState={setState} />}
-        ></Route> */}
+        {/* {state.userLoggedIn?.isBanker ? (
+          <Route
+            path={`/transactions/?${state?.selectedAccount}`}
+            element={<TransactionsTable state={state} setState={setState} />}
+          ></Route>
+        ) : null} */}
       </Routes>
     </div>
   )

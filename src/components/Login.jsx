@@ -12,7 +12,7 @@ export default function Login({ state, setState }) {
 
     console.log(e)
     if (email && password) {
-      console.log({ email, password })
+      // console.log({ email, password })
       getUser(email, password)
     }
   }
@@ -31,8 +31,16 @@ export default function Login({ state, setState }) {
         },
       })
       .then((res) => {
-        console.log('Login Response', res)
-        setState({ ...state, userLoggedIn: res.data.user })
+        // console.log('Login Response', res)
+        if (res.data.user.isBanker) {
+          setState({ ...state, userLoggedIn: res.data.user })
+        } else {
+          setState({
+            ...state,
+            userLoggedIn: res.data.user,
+            selectedAccount: res.data.user._id,
+          })
+        }
       })
       .catch((e) => {
         console.log('Error', e)
@@ -77,7 +85,9 @@ export default function Login({ state, setState }) {
         </div>
       ) : null}
 
-      <TransactionsTable state={state} setState={setState} />
+      {state?.userLoggedIn ? (
+        <TransactionsTable state={state} setState={setState} />
+      ) : null}
     </div>
   )
 }

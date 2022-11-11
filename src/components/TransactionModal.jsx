@@ -22,7 +22,7 @@ export default function TransactionModal({
         },
       })
       .then((res) => {
-        console.log('Transactions Response', res)
+        // console.log('Transactions Response', res)
 
         setState({
           ...state,
@@ -43,11 +43,13 @@ export default function TransactionModal({
     setIsModalOpen(false)
   }
 
-  const handleAmountChange = (e) => {
-    console.log(e.target.value)
+  const handleAmountChange = (e, type) => {
+    // console.log(e.target.value)
     setAmt(+e.target.value)
-    if (!state?.userLoggedIn?.isBanker) {
-      console.log(state.userLoggedIn)
+    if (transactionType == 'deposit') {
+      setIsDisabled(false)
+    }
+    if (!state?.userLoggedIn?.isBanker && transactionType != 'deposit') {
       if (
         state.userLoggedIn.balance < e.target.value ||
         e.target.value == '' ||
