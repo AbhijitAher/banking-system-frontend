@@ -70,7 +70,9 @@ export default function Login({ state, setState }) {
       {state?.userLoggedIn?.isBanker ? (
         <div>
           <h5>{state.userLoggedIn.name} (banker) logged In</h5>
-          <button className='button' onClick={handleLogout}>Logout</button>
+          <button className="button" onClick={handleLogout}>
+            Logout
+          </button>
           <Accounts state={state} setState={setState} />
         </div>
       ) : null}

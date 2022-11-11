@@ -5,6 +5,7 @@ import Accounts from './components/Accounts'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import TransactionsTable from './components/TransactionsTable'
+import 'antd/dist/antd.css'
 
 const initialState = {
   isLoading: false,
